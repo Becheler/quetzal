@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
+set(Boost_NO_BOOST_CMAKE ON)
 
 set(CMAKE_CXX_STANDARD 17)
 add_compile_options(-Wall -pedantic-errors -Wextra -DNDEBUG)
@@ -7,7 +8,10 @@ add_compile_options(-Wall -pedantic-errors -Wextra -DNDEBUG)
 
 add_executable(model_1 integration_test/model_1/main.cpp)
 
-target_link_libraries(model_1 LINK_PUBLIC ${GDAL_LIBRARY} )
+target_link_libraries(model_1 LINK_PUBLIC
+      ${GDAL_LIBRARY}
+      Boost::filesystem
+      Boost::unit_test_framework)
 
 target_include_directories(model_1
   PRIVATE $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
@@ -30,9 +34,8 @@ foreach(testSrc ${TEST_SRCS})
 
         #link to Boost libraries AND your targets and dependencies
         target_link_libraries(${testName}
-                                ${Boost_LIBRARIES}
-                                ${Boost_FILESYSTEM_LIBRARY}
-                                ${Boost_SYSTEM_LIBRARY}
+                                Boost::filesystem
+                                Boost::unit_test_framework
                                 ${GDAL_LIBRARY})
 
         #I like to move testing binaries into a testBin directory
