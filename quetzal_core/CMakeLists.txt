@@ -71,4 +71,4 @@ install(FILES "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
         DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME}/cmake)
 
 # The header files are copied to the installation folder
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/include DESTINATION include)
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/quetzal DESTINATION include)
