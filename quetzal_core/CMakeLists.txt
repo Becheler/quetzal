@@ -23,8 +23,13 @@ add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 # Include Boost as an imported target
 find_package(Boost 1.72 REQUIRED COMPONENTS unit_test_framework filesystem)
 
+list(APPEND CMAKE_MODULE_PATH "/home/becheler/dev/quetzal/build/subprojects/Source/gdal_external/cmake")
+# set path to additional CMake modules
+message("cmake module path:"  ${CMAKE_MODULE_PATH})
 # Include Gdal
-find_package(GDAL REQUIRED)
+include(FindAnyProject)
+# TIFF support - required, default=ON
+find_anyproject(GDAL REQUIRED)
 
 # Adding the install interface generator expression makes sure that the include
 # files are installed to the proper location (provided by GNUInstallDirs)
