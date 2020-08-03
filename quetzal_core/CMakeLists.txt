@@ -29,7 +29,7 @@ message("cmake module path:"  ${CMAKE_MODULE_PATH})
 # Include Gdal
 include(FindAnyProject)
 # TIFF support - required, default=ON
-find_anyproject(GDAL REQUIRED)
+find_anyproject(GDAL REQUIRED DEFAULT ON)
 
 # Adding the install interface generator expression makes sure that the include
 # files are installed to the proper location (provided by GNUInstallDirs)
