@@ -10,7 +10,6 @@ project(
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(Boost_NO_BOOST_CMAKE ON)
 
 message(STATUS "Project will be installed to ${CMAKE_INSTALL_PREFIX}")
 
@@ -20,16 +19,8 @@ add_library(${PROJECT_NAME} INTERFACE)
 # add alias so the project can be used with add_subdirectory
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
-# Include Boost as an imported target
-find_package(Boost 1.72 REQUIRED COMPONENTS unit_test_framework filesystem)
-
-list(APPEND CMAKE_MODULE_PATH "/home/becheler/dev/quetzal/build/subprojects/Source/gdal_external/cmake")
-# set path to additional CMake modules
-message("cmake module path:"  ${CMAKE_MODULE_PATH})
-# Include Gdal
-include(FindAnyProject)
-# TIFF support - required, default=ON
-find_anyproject(GDAL REQUIRED DEFAULT ON)
+find_package(Boost REQUIRED CONFIG COMPONENTS unit_test_framework)
+find_package(GDAL REQUIRED)
 
 # Adding the install interface generator expression makes sure that the include
 # files are installed to the proper location (provided by GNUInstallDirs)
@@ -40,7 +31,7 @@ target_include_directories(${PROJECT_NAME}
 # If we have compiler requirements for this library, list them here
 target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_17)
 
-# Targets that we develop here
+# Tests
 enable_testing()
 add_subdirectory(test)
 
