@@ -32,8 +32,9 @@ foreach(testSrc ${TEST_SRCS})
 
         #link to Boost libraries AND your targets and dependencies
         target_link_libraries(${testName}
-                                Boost::unit_test_framework
-                                ${GDAL_LIBRARY})
+          Boost::unit_test_framework
+          Boost::filesystem
+        ${GDAL_LIBRARY})
 
         #I like to move testing binaries into a testBin directory
          set_target_properties(${testName} PROPERTIES

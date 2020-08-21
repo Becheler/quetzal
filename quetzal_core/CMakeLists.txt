@@ -19,8 +19,11 @@ add_library(${PROJECT_NAME} INTERFACE)
 # add alias so the project can be used with add_subdirectory
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
-find_package(Boost REQUIRED CONFIG COMPONENTS unit_test_framework)
+find_package(Boost REQUIRED CONFIG COMPONENTS unit_test_framework filesystem)
 find_package(GDAL REQUIRED)
+
+# Specify location of GDAL header files
+include_directories( include ${GDAL_INCLUDE_DIRS})
 
 # Adding the install interface generator expression makes sure that the include
 # files are installed to the proper location (provided by GNUInstallDirs)
