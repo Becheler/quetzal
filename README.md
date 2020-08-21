@@ -34,10 +34,6 @@ Quetzal is a header-only library. Just clone the project and include the files y
 ### g++
 gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.2)
 
-###  Boost
-
-Install boost with: ```sudo apt-get install libboost-all-dev```
-
 ### GDAL
 
 The Geospatial Data Abstraction Library (GDAL) is essential to represent a spatially explicit landscape!
@@ -52,13 +48,13 @@ The present project was tested with the following OS:
 - Release: 16.04
 - Codename: xenial
 
-## Tests
-Run in a terminal at quetzal project root:
+## CMake build
+In quetzal project root:
 ```
 mkdir build
 cd build
-cmake ..
-make
+cmake .. -DCMAKE_DISABLE_FIND_PACKAGE_Boost=ON -DCMAKE_DISABLE_FIND_PACKAGE_GDAL=ON
+make --build .
 make test
 ```
 

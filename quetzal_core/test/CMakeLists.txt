@@ -7,7 +7,9 @@ add_compile_options(-Wall -pedantic-errors -Wextra -DNDEBUG)
 
 add_executable(model_1 integration_test/model_1/main.cpp)
 
-target_link_libraries(model_1 LINK_PUBLIC ${GDAL_LIBRARY} )
+target_link_libraries(model_1 LINK_PUBLIC
+      ${GDAL_LIBRARY}
+      Boost::unit_test_framework)
 
 target_include_directories(model_1
   PRIVATE $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
@@ -30,14 +32,13 @@ foreach(testSrc ${TEST_SRCS})
 
         #link to Boost libraries AND your targets and dependencies
         target_link_libraries(${testName}
-                                ${Boost_LIBRARIES}
-                                ${Boost_FILESYSTEM_LIBRARY}
-                                ${Boost_SYSTEM_LIBRARY}
-                                ${GDAL_LIBRARY})
+          Boost::unit_test_framework
+          Boost::filesystem
+        ${GDAL_LIBRARY})
 
         #I like to move testing binaries into a testBin directory
-        set_target_properties(${testName} PROPERTIES
-            RUNTIME_OUTPUT_DIRECTORY  ${CMAKE_CURRENT_SOURCE_DIR}/build/testBin)
+         set_target_properties(${testName} PROPERTIES
+         RUNTIME_OUTPUT_DIRECTORY  ${CMAKE_BINARY_DIR}/test/testBin)
 
         target_include_directories(
           ${testName} PRIVATE $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
@@ -46,6 +47,6 @@ foreach(testSrc ${TEST_SRCS})
         #Finally add it to test execution -
         #Notice the WORKING_DIRECTORY and COMMAND
         add_test(NAME ${testName}
-                 WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build/testBin
-                 COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/build/testBin/${testName} )
+                 WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/test/testBin
+               COMMAND ${CMAKE_BINARY_DIR}/test/testBin/${testName} )
 endforeach(testSrc)
